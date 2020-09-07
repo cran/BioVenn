@@ -56,23 +56,23 @@ draw.venn(
 
 \item{list_z}{(Required) List with IDs from dataset Z}
 
-\item{title}{(Optional) The title of the Venn diagram}
+\item{title}{(Optional) The title of the Venn diagram (default is "BioVenn")}
 
 \item{t_f}{(Optional) The font of the main title (default is "serif")}
 
-\item{t_fb}{(Optional) The font "face" of the main title (1=plain, 2=bold, 3=italic, 4=bold-italic)}
+\item{t_fb}{(Optional) The font "face" of the main title (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)}
 
-\item{t_s}{(Optional) The size of the main title (cex; relative to the standard size)}
+\item{t_s}{(Optional) The size of the main title (cex; relative to the standard size; default is 1.5)}
 
 \item{t_c}{(Optional) The colour of the main title (default is "black")}
 
-\item{subtitle}{(Optional) The subtitle of the Venn diagram}
+\item{subtitle}{(Optional) The subtitle of the Venn diagram (default is "(C) 2007-2020 Tim Hulsen")}
 
 \item{st_f}{(Optional) The font of the subtitle (default is "serif")}
 
-\item{st_fb}{(Optional) The font "face" of the subtitle (1=plain, 2=bold, 3=italic, 4=bold-italic)}
+\item{st_fb}{(Optional) The font "face" of the subtitle (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)}
 
-\item{st_s}{(Optional) The size of the subtitle (cex; relative to the standard size)}
+\item{st_s}{(Optional) The size of the subtitle (cex; relative to the standard size; default is 1.2)}
 
 \item{st_c}{(Optional) The colour of the subtitle (default is "black")}
 
@@ -80,9 +80,9 @@ draw.venn(
 
 \item{xt_f}{(Optional) The font of the X title (default is "serif")}
 
-\item{xt_fb}{(Optional) The font "face" of the X title (1=plain, 2=bold, 3=italic, 4=bold-italic)}
+\item{xt_fb}{(Optional) The font "face" of the X title (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)}
 
-\item{xt_s}{(Optional) The size of the X title (cex; relative to the standard size)}
+\item{xt_s}{(Optional) The size of the X title (cex; relative to the standard size; default is 1)}
 
 \item{xt_c}{(Optional) The colour of the X title (default is "black")}
 
@@ -90,9 +90,9 @@ draw.venn(
 
 \item{yt_f}{(Optional) The font of the Y title (default is "serif")}
 
-\item{yt_fb}{(Optional) The font "face" of the Y title (1=plain, 2=bold, 3=italic, 4=bold-italic)}
+\item{yt_fb}{(Optional) The font "face" of the Y title (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)}
 
-\item{yt_s}{(Optional) The size of the Y title (cex; relative to the standard size)}
+\item{yt_s}{(Optional) The size of the Y title (cex; relative to the standard size; default is 1)}
 
 \item{yt_c}{(Optional) The colour of the Y title (default is "black")}
 
@@ -100,9 +100,9 @@ draw.venn(
 
 \item{zt_f}{(Optional) The font of the Z title (default is "serif")}
 
-\item{zt_fb}{(Optional) The font "face" of the Z title (1=plain, 2=bold, 3=italic, 4=bold-italic)}
+\item{zt_fb}{(Optional) The font "face" of the Z title (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)}
 
-\item{zt_s}{(Optional) The size of the Z title (cex; relative to the standard size)}
+\item{zt_s}{(Optional) The size of the Z title (cex; relative to the standard size; default is 1)}
 
 \item{zt_c}{(Optional) The colour of the Z title (default is "black")}
 
@@ -110,9 +110,9 @@ draw.venn(
 
 \item{nr_f}{(Optional) The font of the numbers (default is "serif")}
 
-\item{nr_fb}{(Optional) The font "face" of the numbers (1=plain, 2=bold, 3=italic, 4=bold-italic)}
+\item{nr_fb}{(Optional) The font "face" of the numbers (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)}
 
-\item{nr_s}{(Optional) The size of the numbers (cex; relative to the standard size)}
+\item{nr_s}{(Optional) The size of the numbers (cex; relative to the standard size; default is 1)}
 
 \item{nr_c}{(Optional) The colour of the numbers (default is "black")}
 

@@ -12,35 +12,35 @@
 #' @param list_x (Required) List with IDs from dataset X
 #' @param list_y (Required) List with IDs from dataset Y
 #' @param list_z (Required) List with IDs from dataset Z
-#' @param title (Optional) The title of the Venn diagram
+#' @param title (Optional) The title of the Venn diagram (default is "BioVenn")
 #' @param t_f (Optional) The font of the main title (default is "serif")
-#' @param t_fb (Optional) The font "face" of the main title (1=plain, 2=bold, 3=italic, 4=bold-italic)
-#' @param t_s (Optional) The size of the main title (cex; relative to the standard size)
+#' @param t_fb (Optional) The font "face" of the main title (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)
+#' @param t_s (Optional) The size of the main title (cex; relative to the standard size; default is 1.5)
 #' @param t_c (Optional) The colour of the main title (default is "black")
-#' @param subtitle (Optional) The subtitle of the Venn diagram
+#' @param subtitle (Optional) The subtitle of the Venn diagram (default is "(C) 2007-2020 Tim Hulsen")
 #' @param st_f (Optional) The font of the subtitle (default is "serif")
-#' @param st_fb (Optional) The font "face" of the subtitle (1=plain, 2=bold, 3=italic, 4=bold-italic)
-#' @param st_s (Optional) The size of the subtitle (cex; relative to the standard size)
+#' @param st_fb (Optional) The font "face" of the subtitle (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)
+#' @param st_s (Optional) The size of the subtitle (cex; relative to the standard size; default is 1.2)
 #' @param st_c (Optional) The colour of the subtitle (default is "black")
 #' @param xtitle (Optional) The X title of the Venn diagram (default is "ID set X")
 #' @param xt_f (Optional) The font of the X title (default is "serif")
-#' @param xt_fb (Optional) The font "face" of the X title (1=plain, 2=bold, 3=italic, 4=bold-italic)
-#' @param xt_s (Optional) The size of the X title (cex; relative to the standard size)
+#' @param xt_fb (Optional) The font "face" of the X title (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)
+#' @param xt_s (Optional) The size of the X title (cex; relative to the standard size; default is 1)
 #' @param xt_c (Optional) The colour of the X title (default is "black")
 #' @param ytitle (Optional) The Y title of the Venn diagram (default is "ID set Y")
 #' @param yt_f (Optional) The font of the Y title (default is "serif")
-#' @param yt_fb (Optional) The font "face" of the Y title (1=plain, 2=bold, 3=italic, 4=bold-italic)
-#' @param yt_s (Optional) The size of the Y title (cex; relative to the standard size)
+#' @param yt_fb (Optional) The font "face" of the Y title (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)
+#' @param yt_s (Optional) The size of the Y title (cex; relative to the standard size; default is 1)
 #' @param yt_c (Optional) The colour of the Y title (default is "black")
 #' @param ztitle (Optional) The Z title of the Venn diagram (default is "ID set Z")
 #' @param zt_f (Optional) The font of the Z title (default is "serif")
-#' @param zt_fb (Optional) The font "face" of the Z title (1=plain, 2=bold, 3=italic, 4=bold-italic)
-#' @param zt_s (Optional) The size of the Z title (cex; relative to the standard size)
+#' @param zt_fb (Optional) The font "face" of the Z title (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)
+#' @param zt_s (Optional) The size of the Z title (cex; relative to the standard size; default is 1)
 #' @param zt_c (Optional) The colour of the Z title (default is "black")
 #' @param nrtype (Optional) The type of the numbers to be displayed: absolute (abs) numbers or percentages (pct) (default is "abs")
 #' @param nr_f (Optional) The font of the numbers (default is "serif")
-#' @param nr_fb (Optional) The font "face" of the numbers (1=plain, 2=bold, 3=italic, 4=bold-italic)
-#' @param nr_s (Optional) The size of the numbers (cex; relative to the standard size)
+#' @param nr_fb (Optional) The font "face" of the numbers (1=plain, 2=bold, 3=italic, 4=bold-italic; default is 2)
+#' @param nr_s (Optional) The size of the numbers (cex; relative to the standard size; default is 1)
 #' @param nr_c (Optional) The colour of the numbers (default is "black")
 #' @param x_c (Optional) The colour of the X circle (default is "red")
 #' @param y_c (Optional) The colour of the X circle (default is "green")
@@ -212,11 +212,6 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
   width_v=max(x_r+x_yz,y_r,z_r)+max(y_r,z_r,x_r-x_yz)
   ppu_v=height_p/width_v
   ppu=min(ppu_h,ppu_v)
-
-  # Overlap radius calculation
-  xy_r=(sqr(4*sq(xy_d)*sq(y_r)-sq(sq(xy_d)-sq(x_r)+sq(y_r))))/(2*xy_d)
-  xz_r=(sqr(4*sq(xz_d)*sq(z_r)-sq(sq(xz_d)-sq(x_r)+sq(z_r))))/(2*xz_d)
-  yz_r=(sqr(4*sq(yz_d)*sq(z_r)-sq(sq(yz_d)-sq(y_r)+sq(z_r))))/(2*yz_d)
 
   # Circle center calculation
   x_h=max(x_r,y_r+y_yz,z_r-yz_d+y_yz)
@@ -558,8 +553,12 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
   # Draw circles
   opar<-graphics::par(no.readonly=TRUE)
   on.exit(graphics::par(opar))
-  graphics::par(pty="s")
-  graphics::plot(0,type='n',axes=FALSE,xlim=c(0,width_p),ylim=c(height_p,0),xlab="",ylab="",xaxt="none",yaxt="none",main=title,cex.main=t_s,sub=subtitle,cex.sub=st_s)
+  graphics::par(pty="s",bg=bg_c)
+  graphics::plot(0,type="n",axes=FALSE,xlim=c(0,width_p),ylim=c(height_p,0),xlab="",ylab="",xaxt="none",yaxt="none")
+  graphics::par(family=t_f)
+  graphics::title(main=title,line=1,font.main=t_fb,cex.main=t_s,col.main=t_c)
+  graphics::par(family=st_f)
+  graphics::title(sub=subtitle,line=1,font.sub=st_fb,cex.sub=st_s,col.sub=st_c)
   plotrix::draw.circle(ppu*x_h,ppu*x_v,ppu*x_r,lty=0,col=grDevices::rgb(grDevices::col2rgb(x_c)[,1][1],grDevices::col2rgb(x_c)[,1][2],grDevices::col2rgb(x_c)[,1][3],maxColorValue=255,alpha=128))
   plotrix::draw.circle(ppu*y_h,ppu*y_v,ppu*y_r,lty=0,col=grDevices::rgb(grDevices::col2rgb(y_c)[,1][1],grDevices::col2rgb(y_c)[,1][2],grDevices::col2rgb(y_c)[,1][3],maxColorValue=255,alpha=128))
   plotrix::draw.circle(ppu*z_h,ppu*z_v,ppu*z_r,lty=0,col=grDevices::rgb(grDevices::col2rgb(z_c)[,1][1],grDevices::col2rgb(z_c)[,1][2],grDevices::col2rgb(z_c)[,1][3],maxColorValue=255,alpha=128))
@@ -571,62 +570,62 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     {
       if(x_only)
       {
-        graphics::text(ppu*x_f_h-nr_s*0.3*length(x_only),ppu*x_f_v,x_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*x_f_h-nr_s*0.3*length(x_only),ppu*x_f_v,x_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(y_only)
       {
-        graphics::text(ppu*y_f_h-nr_s*0.3*length(y_only),ppu*y_f_v,y_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*y_f_h-nr_s*0.3*length(y_only),ppu*y_f_v,y_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(z_only)
       {
-        graphics::text(ppu*z_f_h-nr_s*0.3*length(z_only),ppu*z_f_v,z_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*z_f_h-nr_s*0.3*length(z_only),ppu*z_f_v,z_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xy_only)
       {
-        graphics::text(ppu*xy_f_h-nr_s*0.3*length(xy_only),ppu*xy_f_v,xy_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*xy_f_h-nr_s*0.3*length(xy_only),ppu*xy_f_v,xy_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xz_only)
       {
-        graphics::text(ppu*xz_f_h-nr_s*0.3*length(xz_only),ppu*xz_f_v,xz_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*xz_f_h-nr_s*0.3*length(xz_only),ppu*xz_f_v,xz_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(yz_only)
       {
-        graphics::text(ppu*yz_f_h-nr_s*0.3*length(yz_only),ppu*yz_f_v,yz_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*yz_f_h-nr_s*0.3*length(yz_only),ppu*yz_f_v,yz_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xyz)
       {
-        graphics::text(ppu*xyz_f_h-nr_s*0.3*length(xyz_text),ppu*xyz_f_v,xyz_text,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*xyz_f_h-nr_s*0.3*length(xyz_text),ppu*xyz_f_v,xyz_text,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
     }
     else if(nrtype=="pct")
     {
       if(x_only)
       {
-        graphics::text(ppu*x_f_h-nr_s*0.3*length(paste0(round(x_only/total_text*100,2),"%")),ppu*x_f_v,paste0(round(x_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*x_f_h-nr_s*0.3*length(paste0(round(x_only/total_text*100,2),"%")),ppu*x_f_v,paste0(round(x_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(y_only)
       {
-        graphics::text(ppu*y_f_h-nr_s*0.3*length(paste0(round(y_only/total_text*100,2),"%")),ppu*y_f_v,paste0(round(y_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*y_f_h-nr_s*0.3*length(paste0(round(y_only/total_text*100,2),"%")),ppu*y_f_v,paste0(round(y_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(z_only)
       {
-        graphics::text(ppu*z_f_h-nr_s*0.3*length(paste0(round(z_only/total_text*100,2),"%")),ppu*z_f_v,paste0(round(z_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*z_f_h-nr_s*0.3*length(paste0(round(z_only/total_text*100,2),"%")),ppu*z_f_v,paste0(round(z_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xy_only)
       {
-        graphics::text(ppu*xy_f_h-nr_s*0.3*length(paste0(round(xy_only/total_text*100,2),"%")),ppu*xy_f_v,paste0(round(xy_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*xy_f_h-nr_s*0.3*length(paste0(round(xy_only/total_text*100,2),"%")),ppu*xy_f_v,paste0(round(xy_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xz_only)
       {
-        graphics::text(ppu*xz_f_h-nr_s*0.3*length(paste0(round(xz_only/total_text*100,2),"%")),ppu*xz_f_v,paste0(round(xz_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*xz_f_h-nr_s*0.3*length(paste0(round(xz_only/total_text*100,2),"%")),ppu*xz_f_v,paste0(round(xz_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(yz_only)
       {
-        graphics::text(ppu*yz_f_h-nr_s*0.3*length(paste0(round(yz_only/total_text*100,2),"%")),ppu*yz_f_v,paste0(round(yz_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*yz_f_h-nr_s*0.3*length(paste0(round(yz_only/total_text*100,2),"%")),ppu*yz_f_v,paste0(round(yz_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xyz)
       {
-        graphics::text(ppu*xyz_f_h-nr_s*0.3*length(paste0(round(xyz_text/total_text*100,2),"%")),ppu*xyz_f_v,paste0(round(xyz_text/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s);
+        graphics::text(ppu*xyz_f_h-nr_s*0.3*length(paste0(round(xyz_text/total_text*100,2),"%")),ppu*xyz_f_v,paste0(round(xyz_text/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
     }
   }
@@ -634,15 +633,15 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
   # Print texts
   if(x)
   {
-    graphics::text(ppu*x_h-xt_s*0.3*length(xtitle),ppu*x_v,xtitle,col=xt_c,family=xt_f,font=xt_fb,cex=xt_s);
+    graphics::text(ppu*x_h-xt_s*0.3*length(xtitle),ppu*x_v,xtitle,col=xt_c,family=xt_f,font=xt_fb,cex=xt_s)
   }
   if(y)
   {
-    graphics::text(ppu*y_h-yt_s*0.3*length(ytitle),ppu*y_v,ytitle,col=yt_c,family=yt_f,font=yt_fb,cex=yt_s);
+    graphics::text(ppu*y_h-yt_s*0.3*length(ytitle),ppu*y_v,ytitle,col=yt_c,family=yt_f,font=yt_fb,cex=yt_s)
   }
   if(z)
   {
-    graphics::text(ppu*z_h-zt_s*0.3*length(ztitle),ppu*z_v,ztitle,col=zt_c,family=zt_f,font=zt_fb,cex=zt_s);
+    graphics::text(ppu*z_h-zt_s*0.3*length(ztitle),ppu*z_v,ztitle,col=zt_c,family=zt_f,font=zt_fb,cex=zt_s)
   }
 
   # Write to file
