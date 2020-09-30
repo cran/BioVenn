@@ -181,19 +181,28 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
 
   # Distance calculation
   xy_d=x_r+y_r
-  while(xy>sq(x_r)*arccos((sq(xy_d)+sq(x_r)-sq(y_r))/(2*xy_d*x_r))+sq(y_r)*arccos((sq(xy_d)+sq(y_r)-sq(x_r))/(2*xy_d*y_r))-0.5*sqr(round((xy_d+x_r+y_r)*(xy_d+x_r-y_r)*(xy_d-x_r+y_r)*(-xy_d+x_r+y_r),5)))
+  if(x&&y)
   {
-    xy_d=xy_d-min(x_r,y_r)/1000.0
+    while(xy>sq(x_r)*arccos((sq(xy_d)+sq(x_r)-sq(y_r))/(2*xy_d*x_r))+sq(y_r)*arccos((sq(xy_d)+sq(y_r)-sq(x_r))/(2*xy_d*y_r))-0.5*sqr(round((xy_d+x_r+y_r)*(xy_d+x_r-y_r)*(xy_d-x_r+y_r)*(-xy_d+x_r+y_r),5)))
+    {
+      xy_d=xy_d-min(x_r,y_r)/1000.0
+    }
   }
   xz_d=x_r+z_r
-  while(xz>sq(x_r)*arccos((sq(xz_d)+sq(x_r)-sq(z_r))/(2*xz_d*x_r))+sq(z_r)*arccos((sq(xz_d)+sq(z_r)-sq(x_r))/(2*xz_d*z_r))-0.5*sqr(round((xz_d+x_r+z_r)*(xz_d+x_r-z_r)*(xz_d-x_r+z_r)*(-xz_d+x_r+z_r),5)))
+  if(x&&z)
   {
-    xz_d=xz_d-min(x_r,z_r)/1000.0
+    while(xz>sq(x_r)*arccos((sq(xz_d)+sq(x_r)-sq(z_r))/(2*xz_d*x_r))+sq(z_r)*arccos((sq(xz_d)+sq(z_r)-sq(x_r))/(2*xz_d*z_r))-0.5*sqr(round((xz_d+x_r+z_r)*(xz_d+x_r-z_r)*(xz_d-x_r+z_r)*(-xz_d+x_r+z_r),5)))
+    {
+      xz_d=xz_d-min(x_r,z_r)/1000.0
+    }
   }
   yz_d=y_r+z_r
-  while(yz>sq(y_r)*arccos((sq(yz_d)+sq(y_r)-sq(z_r))/(2*yz_d*y_r))+sq(z_r)*arccos((sq(yz_d)+sq(z_r)-sq(y_r))/(2*yz_d*z_r))-0.5*sqr(round((yz_d+y_r+z_r)*(yz_d+y_r-z_r)*(yz_d-y_r+z_r)*(-yz_d+y_r+z_r),5)))
+  if(y&&z)
   {
-    yz_d=yz_d-min(y_r,z_r)/1000.0
+    while(yz>sq(y_r)*arccos((sq(yz_d)+sq(y_r)-sq(z_r))/(2*yz_d*y_r))+sq(z_r)*arccos((sq(yz_d)+sq(z_r)-sq(y_r))/(2*yz_d*z_r))-0.5*sqr(round((yz_d+y_r+z_r)*(yz_d+y_r-z_r)*(yz_d-y_r+z_r)*(-yz_d+y_r+z_r),5)))
+    {
+      yz_d=yz_d-min(y_r,z_r)/1000.0
+    }
   }
   if(xy_d>xz_d+yz_d){xy_d=xz_d+yz_d;}
   if(xz_d>xy_d+yz_d){xz_d=xy_d+yz_d;}
@@ -700,11 +709,13 @@ function assignAttr(O,A){
       else if(substr(oneLine,1,5)=="<text")
       {
         oneLine=paste0(substr(oneLine,1,5)," id='t",id,"'",substr(oneLine,6,nchar(oneLine)))
+        oneLine=sub("style='","style='cursor:move;",oneLine)
         id=id+1
       }
       else if(substr(oneLine,61,65)=="<text")
       {
         oneLine=paste0(substr(oneLine,1,65)," id='t",id,"'",substr(oneLine,66,nchar(oneLine)))
+        oneLine=sub("style='","style='cursor:move;",oneLine)
         id=id+1
       }
       else if(substr(oneLine,1,8)=="<polygon")
