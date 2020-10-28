@@ -147,7 +147,7 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
   # Define arccos function
   arccos <- function(nr)
   {
-    nr=acos(round(nr,5))
+    nr=acos(min(max(-1,round(nr,5)),1))
     return(nr)
   }
 
