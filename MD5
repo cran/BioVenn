@@ -1,9 +1,9 @@
-5d2bf067a663d01cd5304d296ebf2515 *DESCRIPTION
+cd5b2411a1dae5eb4e8c77eb6c37b822 *DESCRIPTION
 fc6ddeabd96ecd05aebb90bf24ce18f4 *NAMESPACE
 1ae0927eaa7ee8a0a930c357983a32c5 *R/draw.venn.R
 ae0a9d98d4d37599002cc9d277a28dcc *build/vignette.rds
-96e66de8c994d2fc78bd69f27bf09bb8 *inst/doc/BioVenn.R
-74b5d8694d2963e71b43292ed931d738 *inst/doc/BioVenn.Rmd
-c299bea949b8ad87c4c3c21656768a83 *inst/doc/BioVenn.html
+71f0cf2c877dfc2dd028e347d12a9b90 *inst/doc/BioVenn.R
+925abe54597158ee968a409c307dac32 *inst/doc/BioVenn.Rmd
+de5444ce0e98ce889522e0d41c672e85 *inst/doc/BioVenn.html
 7ecd8787e28b27b5b0e42ef351cfb890 *man/draw.venn.Rd
-74b5d8694d2963e71b43292ed931d738 *vignettes/BioVenn.Rmd
+925abe54597158ee968a409c307dac32 *vignettes/BioVenn.Rmd

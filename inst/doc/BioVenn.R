@@ -14,8 +14,8 @@ biovenn
 
 ## -----------------------------------------------------------------------------
 list_x <- NULL
-list_y <- c("ENSG000000001","ENSG000000002","ENSG000000003","ENSG000000004","ENSG000000005","ENSG000000006")
-list_z <- c("ENSG000000001","ENSG000000004","ENSG000000007","ENSG000000008","ENSG000000009")
+list_y <- c("ENSG00000070778","ENSG00000271503","ENSG00000126351","ENSG00000182179","ENSG00000283726","ENSG00000048545","ENSG00000287363","ENSG00000274233")
+list_z <- c("ENSG00000130649","ENSG00000173153","ENSG00000215572","ENSG00000271503","ENSG00000255974","ENSG00000198077","ENSG00000182580","ENSG00000204580","ENSG00000048545","ENSG00000287363","ENSG00000274233","ENSG00000137332","ENSG00000230456","ENSG00000234078","ENSG00000215522")
 
 ## ---- fig.dim = c(10, 10), out.width="100%"-----------------------------------
 biovenn <- draw.venn(list_x, list_y, list_z, subtitle="Example diagram 2", nrtype="pct")
@@ -29,18 +29,7 @@ list_y <- c("1255_g_at","1294_at","1316_at","1320_at","1405_i_at")
 list_z <- c("1007_s_at","1405_i_at","1255_g_at","1431_at","1438_at","1487_at","1494_f_at")
 
 ## ---- fig.dim = c(10, 10), out.width="100%"-----------------------------------
-biovenn <- draw.venn(list_x, list_y, list_z, subtitle="Example diagram 3", nrtype="abs", map2ens=TRUE)
-
-## -----------------------------------------------------------------------------
-biovenn
-
-## -----------------------------------------------------------------------------
-list_x <- c("1007_s_at","1053_at","117_at","121_at","1255_g_at","1294_at")
-list_y <- c("1255_g_at","1294_at","1316_at","1320_at","1405_i_at")
-list_z <- c("1007_s_at","1405_i_at","1255_g_at","1431_at","1438_at","1487_at","1494_f_at")
-
-## ---- fig.dim = c(10, 10), out.width="100%"-----------------------------------
-biovenn <- draw.venn(list_x, list_y, list_z, t_c="#FFFFFF", subtitle="Example diagram 4", st_c="#FFFFFF", xt_c="#FFFFFF", yt_c="#FFFFFF", zt_c="#FFFFFF", nrtype="abs", nr_c="#FFFFFF", x_c="#FFFF00", y_c="#FF00FF", z_c="#00FFFF", bg_c="#000000")
+biovenn <- draw.venn(list_x, list_y, list_z, t_c="#FFFFFF", subtitle="Example diagram 3", st_c="#FFFFFF", xt_c="#FFFFFF", yt_c="#FFFFFF", zt_c="#FFFFFF", nrtype="abs", nr_c="#FFFFFF", x_c="#FFFF00", y_c="#FF00FF", z_c="#00FFFF", bg_c="#000000")
 
 ## -----------------------------------------------------------------------------
 biovenn
