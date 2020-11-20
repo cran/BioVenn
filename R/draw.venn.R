@@ -179,11 +179,11 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
   y_r=sqr(y/pi)
   z_r=sqr(z/pi)
 
-  # Distance calculation
+  # Distance calculation (with 0.001 error margin)
   xy_d=x_r+y_r
   if(x&&y)
   {
-    while(xy>sq(x_r)*arccos((sq(xy_d)+sq(x_r)-sq(y_r))/(2*xy_d*x_r))+sq(y_r)*arccos((sq(xy_d)+sq(y_r)-sq(x_r))/(2*xy_d*y_r))-0.5*sqr(round((xy_d+x_r+y_r)*(xy_d+x_r-y_r)*(xy_d-x_r+y_r)*(-xy_d+x_r+y_r),5)))
+    while(xy*0.999>sq(x_r)*arccos((sq(xy_d)+sq(x_r)-sq(y_r))/(2*xy_d*x_r))+sq(y_r)*arccos((sq(xy_d)+sq(y_r)-sq(x_r))/(2*xy_d*y_r))-0.5*sqr(round((xy_d+x_r+y_r)*(xy_d+x_r-y_r)*(xy_d-x_r+y_r)*(-xy_d+x_r+y_r),5)))
     {
       xy_d=xy_d-min(x_r,y_r)/1000.0
     }
@@ -191,7 +191,7 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
   xz_d=x_r+z_r
   if(x&&z)
   {
-    while(xz>sq(x_r)*arccos((sq(xz_d)+sq(x_r)-sq(z_r))/(2*xz_d*x_r))+sq(z_r)*arccos((sq(xz_d)+sq(z_r)-sq(x_r))/(2*xz_d*z_r))-0.5*sqr(round((xz_d+x_r+z_r)*(xz_d+x_r-z_r)*(xz_d-x_r+z_r)*(-xz_d+x_r+z_r),5)))
+    while(xz*0.999>sq(x_r)*arccos((sq(xz_d)+sq(x_r)-sq(z_r))/(2*xz_d*x_r))+sq(z_r)*arccos((sq(xz_d)+sq(z_r)-sq(x_r))/(2*xz_d*z_r))-0.5*sqr(round((xz_d+x_r+z_r)*(xz_d+x_r-z_r)*(xz_d-x_r+z_r)*(-xz_d+x_r+z_r),5)))
     {
       xz_d=xz_d-min(x_r,z_r)/1000.0
     }
@@ -199,14 +199,25 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
   yz_d=y_r+z_r
   if(y&&z)
   {
-    while(yz>sq(y_r)*arccos((sq(yz_d)+sq(y_r)-sq(z_r))/(2*yz_d*y_r))+sq(z_r)*arccos((sq(yz_d)+sq(z_r)-sq(y_r))/(2*yz_d*z_r))-0.5*sqr(round((yz_d+y_r+z_r)*(yz_d+y_r-z_r)*(yz_d-y_r+z_r)*(-yz_d+y_r+z_r),5)))
+    while(yz*0.999>sq(y_r)*arccos((sq(yz_d)+sq(y_r)-sq(z_r))/(2*yz_d*y_r))+sq(z_r)*arccos((sq(yz_d)+sq(z_r)-sq(y_r))/(2*yz_d*z_r))-0.5*sqr(round((yz_d+y_r+z_r)*(yz_d+y_r-z_r)*(yz_d-y_r+z_r)*(-yz_d+y_r+z_r),5)))
     {
       yz_d=yz_d-min(y_r,z_r)/1000.0
     }
   }
-  if(xy_d>xz_d+yz_d){xy_d=xz_d+yz_d;}
-  if(xz_d>xy_d+yz_d){xz_d=xy_d+yz_d;}
-  if(yz_d>xy_d+xz_d){yz_d=xy_d+xz_d;}
+
+  # Distance calculation for horizontally plotted diagrams
+  if(xy_d>xz_d+yz_d)
+  {
+    xy_d=xz_d+yz_d
+  }
+  if(xz_d>xy_d+yz_d)
+  {
+    xz_d=xy_d+yz_d
+  }
+  if(yz_d>xy_d+xz_d)
+  {
+    yz_d=xy_d+xz_d
+  }
 
   # Angle calculation
   x_a=arccos((sq(xy_d)+sq(xz_d)-sq(yz_d))/(2*xy_d*xz_d))
@@ -260,19 +271,34 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
   yz_i2_h=yz_i_h_part1+yz_i_h_part2
   yz_i2_v=yz_i_v_part1-yz_i_v_part2
 
-  # Number fill point calculation of overlaps
-  xy_f_h=(xy_i2_h+xz_i1_h+yz_i1_h)/3
-  xy_f_v=(xy_i2_v+xz_i1_v+yz_i1_v)/3
-  xz_f_h=(xy_i1_h+xz_i2_h+yz_i1_h)/3
-  xz_f_v=(xy_i1_v+xz_i2_v+yz_i1_v)/3
-  yz_f_h=(xy_i1_h+xz_i1_h+yz_i2_h)/3
-  yz_f_v=(xy_i1_v+xz_i1_v+yz_i2_v)/3
-  xyz_f_h=(xy_i1_h+xz_i1_h+yz_i1_h)/3
-  xyz_f_v=(xy_i1_v+xz_i1_v+yz_i1_v)/3
-
-  # Number fill point calculation of X
-  # For XYZ diagrams
+  # Number fill point calculation of XYZ
   if(x&&y&&z)
+  {
+    if(!xy)
+    {
+      xyz_f_h=xy_i1_h
+      xyz_f_v=xy_i1_v
+    }
+    else if(!xz)
+    {
+      xyz_f_h=xz_i1_h
+      xyz_f_v=xz_i1_v
+    }
+    else if(!yz)
+    {
+      xyz_f_h=yz_i1_h
+      xyz_f_v=yz_i1_v
+    }
+    else
+    {
+      xyz_f_h=(xy_i1_h+xz_i1_h+yz_i1_h)/3
+      xyz_f_v=(xy_i1_v+xz_i1_v+yz_i1_v)/3
+    }
+  }
+
+  # Number fill point calculation of X-only
+  # For XYZ diagrams
+  if(x&&y&&z&&xy&&xz)
   {
     xyz_yz_i1=sqr(sq(xyz_f_h-yz_i1_h)+sq(xyz_f_v-yz_i1_v))
     x_ratio_h=(xyz_f_h-yz_i1_h)/xyz_yz_i1
@@ -282,8 +308,8 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     x_f_h=(x_out_h+yz_i1_h)/2
     x_f_v=(x_out_v+yz_i1_v)/2
   }
-  # For XY diagrams
-  else if(x&&y&&!z)
+  # For XY diagrams or XYZ diagrams without XZ overlap
+  else if(x&&y&&!z||x&&y&&z&&!xz)
   {
     xy_f_h=(xy_i1_h+xy_i2_h)/2
     xy_f_v=(xy_i1_v+xy_i2_v)/2
@@ -294,8 +320,8 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     x_f_h=(x_out_h+x_in_h)/2
     x_f_v=(x_out_v+x_in_v)/2
   }
-  # For XZ diagrams
-  else if(x&&!y&&z)
+  # For XZ diagrams or XYZ diagrams without XY overlap
+  else if(x&&!y&&z||x&&y&&z&&!xy)
   {
     xz_f_h=(xz_i1_h+xz_i2_h)/2
     xz_f_v=(xz_i1_v+xz_i2_v)/2
@@ -307,9 +333,9 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     x_f_v=(x_out_v+x_in_v)/2
   }
 
-  # Number fill point calculation of Y
+  # Number fill point calculation of Y-only
   # For XYZ diagrams
-  if(x&&y&&z)
+  if(x&&y&&z&&xy&&yz)
   {
     xyz_xz_i1=sqr(sq(xyz_f_h-xz_i1_h)+sq(xyz_f_v-xz_i1_v))
     y_ratio_h=(xyz_f_h-xz_i1_h)/xyz_xz_i1
@@ -319,8 +345,8 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     y_f_h=(y_out_h+xz_i1_h)/2
     y_f_v=(y_out_v+xz_i1_v)/2
   }
-  # For XY diagrams
-  else if(x&&y&&!z)
+  # For XY diagrams or XYZ diagrams without YZ overlap
+  else if(x&&y&&!z||x&&y&&z&&!yz)
   {
     xy_f_h=(xy_i1_h+xy_i2_h)/2
     xy_f_v=(xy_i1_v+xy_i2_v)/2
@@ -331,8 +357,8 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     y_f_h=(y_out_h+y_in_h)/2
     y_f_v=(y_out_v+y_in_v)/2
   }
-  # For YZ diagrams
-  else if(!x&&y&&z)
+  # For YZ diagrams or XYZ diagrams without XY overlap
+  else if(!x&&y&&z||x&&y&&z&&!xy)
   {
     yz_f_h=(yz_i1_h+yz_i2_h)/2
     yz_f_v=(yz_i1_v+yz_i2_v)/2
@@ -344,9 +370,9 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     y_f_v=(y_out_v+y_in_v)/2
   }
 
-  # Number fill point calculation of Z
+  # Number fill point calculation of Z-only
   # For XYZ diagrams
-  if(x&&y&&z)
+  if(x&&y&&z&&xz&&yz)
   {
     xyz_xy_i1=sqr(sq(xyz_f_h-xy_i1_h)+sq(xyz_f_v-xy_i1_v))
     z_ratio_h=(xyz_f_h-xy_i1_h)/xyz_xy_i1
@@ -356,8 +382,8 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     z_f_h=(z_out_h+xy_i1_h)/2
     z_f_v=(z_out_v+xy_i1_v)/2
   }
-  # For XZ diagrams
-  else if(x&&!y&&z)
+  # For XZ diagrams or XYZ diagrams without YZ overlap
+  else if(x&&!y&&z||x&&y&&z&&!yz)
   {
     xz_f_h=(xz_i1_h+xz_i2_h)/2
     xz_f_v=(xz_i1_v+xz_i2_v)/2
@@ -368,8 +394,8 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     z_f_h=(z_out_h+z_in_h)/2
     z_f_v=(z_out_v+z_in_v)/2
   }
-  # For YZ diagrams
-  else if(!x&&y&&z)
+  # For YZ diagrams or XYZ diagrams without XZ overlap
+  else if(!x&&y&&z||x&&y&&z&&!xz)
   {
     yz_f_h=(yz_i1_h+yz_i2_h)/2
     yz_f_v=(yz_i1_v+yz_i2_v)/2
@@ -381,132 +407,148 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     z_f_v=(z_out_v+z_in_v)/2
   }
 
-  # Number fill point calculation for special cases
-  # No X only
-  if(x&&!x_only)
+  # Number fill point calculation of XY-only
+  if(x&&y&&z)
   {
-    # X is subset of Z
-    if(!xy_only)
-    {
-      xz_f_h=((y_h+y_r)+(x_h+x_r))/2
-      xz_f_v=x_v
-      yz_f_h=((z_h-z_r)+(x_h-x_r))/2
-      yz_f_v=y_v
-      xyz_f_h=((x_h-x_r)+(y_h+y_r))/2
-      xyz_f_v=(x_v+y_v)/2
-      y_f_h=((y_h-y_r)+(z_h-z_r))/2
-      y_f_v=y_v
-      xyz_xy_i2=sqr(sq(xyz_f_h-xy_i2_h)+sq(xyz_f_v-xy_i2_v))
-      z_ratio_h=(xyz_f_h-xy_i2_h)/xyz_xy_i2
-      z_ratio_v=(xyz_f_v-xy_i2_v)/xyz_xy_i2
-      z_out_h=z_h-z_r*z_ratio_h
-      z_out_v=z_v-z_r*z_ratio_v
-      z_f_h=(z_out_h+xy_i2_h)/2
-      z_f_v=(z_out_v+xy_i2_v)/2
-    }
-    # X is subset of Y
-    else if(!xz_only)
-    {
-      xy_f_h=((y_h-y_r)+(z_h-z_r))/2
-      xy_f_v=x_v
-      yz_f_h=((x_h+x_r)+(y_h+y_r))/2
-      yz_f_v=z_v
-      xyz_f_h=((z_h-z_r)+(x_h+x_r))/2
-      xyz_f_v=(x_v+z_v)/2
-      xyz_xz_i2=sqr(sq(xyz_f_h-xz_i2_h)+sq(xyz_f_v-xz_i2_v))
-      y_ratio_h=(xyz_f_h-xz_i2_h)/xyz_xz_i2
-      y_ratio_v=(xyz_f_v-xz_i2_v)/xyz_xz_i2
-      y_out_h=y_h-y_r*y_ratio_h
-      y_out_v=y_v-y_r*y_ratio_v
-      y_f_h=(y_out_h+xz_i2_h)/2
-      y_f_v=(y_out_v+xz_i2_v)/2
-      z_f_h=((y_h+y_r)+(z_h+z_r))/2
-      z_f_v=z_v
-    }
+    dh=(xyz_f_h-z_h)-(xy_i2_h-z_h)
+    dv=(xyz_f_v-z_v)-(xy_i2_v-z_v)
+    dr=sqr(sq(dh)+sq(dv))
+    D=(xy_i2_h-z_h)*(xyz_f_v-z_v)-(xyz_f_h-z_h)*(xy_i2_v-z_v)
+    z_in_h=z_h+(D*dv-dh*sqr(sq(z_r)*sq(dr)-sq(D)))/sq(dr)
+    z_in_v=z_v+(-D*dh-abs(dv)*sqr(sq(z_r)*sq(dr)-sq(D)))/sq(dr)
+    xy_f_h=(z_in_h+xy_i2_h)/2
+    xy_f_v=(z_in_v+xy_i2_v)/2
   }
-  # No Y only
-  if(y&&!y_only)
+
+  # Number fill point calculation of XZ-only
+  if(x&&y&&z)
   {
-    # Y is subset of Z
-    if(!xy_only)
-    {
-      xz_f_h=((y_h+y_r)+(z_h+z_r))/2
-      xz_f_v=x_v
-      yz_f_h=((x_h-x_r)+(y_h-y_r))/2
-      yz_f_v=y_v
-      xyz_f_h=((x_h-x_r)+(y_h+y_r))/2
-      xyz_f_v=(x_v+y_v)/2
-      x_f_h=((z_h+z_r)+(x_h+x_r))/2
-      x_f_v=x_v
-      xyz_xy_i2=sqr(sq(xyz_f_h-xy_i2_h)+sq(xyz_f_v-xy_i2_v))
-      z_ratio_h=(xyz_f_h-xy_i2_h)/xyz_xy_i2
-      z_ratio_v=(xyz_f_v-xy_i2_v)/xyz_xy_i2
-      z_out_h=z_h-z_r*z_ratio_h
-      z_out_v=z_v-z_r*z_ratio_v
-      z_f_h=(z_out_h+xy_i2_h)/2
-      z_f_v=(z_out_v+xy_i2_v)/2
-    }
-    # Y is subset of X
-    else if(!yz_only)
-    {
-      xy_f_h=((y_h-y_r)+(z_h-z_r))/2
-      xy_f_v=y_v
-      xz_f_h=((y_h+y_r)+(x_h+x_r))/2
-      xz_f_v=z_v
-      xyz_f_h=((z_h-z_r)+(y_h+y_r))/2
-      xyz_f_v=(y_v+z_v)/2
-      xyz_yz_i1=sqr(sq(xyz_f_h-yz_i1_h)+sq(xyz_f_v-yz_i1_v))
-      x_ratio_h=(xyz_f_h-yz_i1_h)/xyz_yz_i1
-      x_ratio_v=(xyz_f_v-yz_i1_v)/xyz_yz_i1
-      x_out_h=x_h-x_r*x_ratio_h
-      x_out_v=x_v-x_r*x_ratio_v
-      x_f_h=(x_out_h+yz_i1_h)/2
-      x_f_v=(x_out_v+yz_i1_v)/2
-      z_f_h=((x_h+x_r)+(z_h+z_r))/2
-      z_f_v=y_v
-    }
+    dh=(xyz_f_h-y_h)-(xz_i2_h-y_h)
+    dv=(xyz_f_v-y_v)-(xz_i2_v-y_v)
+    dr=sqr(sq(dh)+sq(dv))
+    D=(xz_i2_h-y_h)*(xyz_f_v-y_v)-(xyz_f_h-y_h)*(xz_i2_v-y_v)
+    y_in_h=y_h+(D*dv-dh*sqr(sq(y_r)*sq(dr)-sq(D)))/sq(dr)
+    y_in_v=y_v+(-D*dh-abs(dv)*sqr(sq(y_r)*sq(dr)-sq(D)))/sq(dr)
+    xz_f_h=(y_in_h+xz_i2_h)/2
+    xz_f_v=(y_in_v+xz_i2_v)/2
   }
-  # No Z only
-  if(z&&!z_only)
+
+  # Number fill point calculation of YZ-only
+  if(x&&y&&z)
   {
-    # Z is subset of Y
-    if(!xz_only)
+    dh=(xyz_f_h-x_h)-(yz_i2_h-x_h)
+    dv=(xyz_f_v-x_v)-(yz_i2_v-x_v)
+    dr=sqr(sq(dh)+sq(dv))
+    D=(yz_i2_h-x_h)*(xyz_f_v-x_v)-(xyz_f_h-x_h)*(yz_i2_v-x_v)
+    x_in_h=x_h+(D*dv-dh*sqr(sq(x_r)*sq(dr)-sq(D)))/sq(dr)
+    x_in_v=x_v+(-D*dh+abs(dv)*sqr(sq(x_r)*sq(dr)-sq(D)))/sq(dr)
+    yz_f_h=(x_in_h+yz_i2_h)/2
+    yz_f_v=(x_in_v+yz_i2_v)/2
+  }
+
+  # Number fill point calculation for horizontally plotted diagrams
+  if(xy_d==xz_d+yz_d||xz_d==xy_d+yz_d||yz_d==xy_d+xz_d)
+  {
+    # No X-only and no Y-only
+    if(x&&!x_only&&y&&!y_only)
     {
-      xy_f_h=((y_h-y_r)+(z_h-z_r))/2
-      xy_f_v=x_v
-      yz_f_h=((x_h+x_r)+(z_h+z_r))/2
-      yz_f_v=z_v
-      xyz_f_h=((z_h-z_r)+(x_h+x_r))/2
-      xyz_f_v=(x_v+z_v)/2
-      xyz_xz_i2=sqr(sq(xyz_f_h-xz_i2_h)+sq(xyz_f_v-xz_i2_v))
-      y_ratio_h=(xyz_f_h-xz_i2_h)/xyz_xz_i2
-      y_ratio_v=(xyz_f_v-xz_i2_v)/xyz_xz_i2
-      y_out_h=y_h-y_r*y_ratio_h
-      y_out_v=y_v-y_r*y_ratio_v
-      y_f_h=(y_out_h+xz_i2_h)/2
-      y_f_v=(y_out_v+xz_i2_v)/2
-      x_f_h=((x_h-x_r)+(y_h-y_r))/2
-      x_f_v=x_v
+      xz_f_v=yz_f_v=xyz_f_v=x_v
+      xz_f_h=(max(y_h+y_r,x_h-x_r)+(x_h+x_r))/2
+      yz_f_h=((y_h-y_r)+min(y_h+y_r,x_h-x_r))/2
+      #z_f_h, z_f_v stay the same
     }
-    # Z is subset of X
-    else if(!yz_only)
+    # No X-only and no Z-only
+    else if(x&&!x_only&&z&&!z_only)
     {
-      xy_f_h=((z_h-z_r)+(x_h-x_r))/2
-      xy_f_v=y_v
-      xz_f_h=((y_h+y_r)+(x_h+x_r))/2
-      xz_f_v=x_v
-      xyz_f_h=((z_h-z_r)+(y_h+y_r))/2
-      xyz_f_v=(y_v+z_v)/2
-      xyz_yz_i1=sqr(sq(xyz_f_h-yz_i1_h)+sq(xyz_f_v-yz_i1_v))
-      x_ratio_h=(xyz_f_h-yz_i1_h)/xyz_yz_i1
-      x_ratio_v=(xyz_f_v-yz_i1_v)/xyz_yz_i1
-      x_out_h=x_h-x_r*x_ratio_h
-      x_out_v=x_v-x_r*x_ratio_v
-      x_f_h=(x_out_h+yz_i1_h)/2
-      x_f_v=(x_out_v+yz_i1_v)/2
-      y_f_h=((y_h-y_r)+(x_h-x_r))/2
-      y_f_v=y_v
+      xy_f_v=yz_f_v=xyz_f_v=x_v
+      xy_f_h=((x_h-x_r)+min(x_h+x_r,z_h-z_r))/2
+      yz_f_h=(max(x_h+x_r,z_h-z_r)+(z_h+z_r))/2
+      #y_f_h, y_f_v stay the same
     }
+    # No Y-only and no Z-only
+    else if(y&&!y_only&&z&&!z_only)
+    {
+      yz_f_v=xz_f_v=xyz_f_v=x_v
+      yz_f_h=(max(x_h+x_r,y_h-y_r)+(y_h+y_r))/2
+      xz_f_h=(max(y_h+y_r,z_h-z_r)+(z_h+z_r))/2
+      #x_f_h, x_f_v stay the same
+    }
+    # No X-only
+    else if(x&&!x_only)
+    {
+      yz_f_v=xyz_f_v=x_v
+      # X is subset of Y
+      if(!xz_only)
+      {
+        z_f_h=(max(x_h+x_r,y_h+y_r)+(z_h+z_r))/2
+        z_f_v=x_v
+        xy_f_h=(max(y_h-y_r,x_h-x_r)+(z_h-z_r))/2
+        xy_f_v=x_v
+        yz_f_h=(max(x_h+x_r,z_h-z_r)+(y_h+y_r))/2
+        #y_f_h, y_f_v stay the same
+      }
+      # X is subset of Z
+      else if(!xy_only)
+      {
+        y_f_h=((y_h-y_r)+min(z_h-z_r,x_h-x_r))/2
+        y_f_v=x_v
+        xz_f_h=(max(y_h+y_r,x_h-x_r)+(x_h+x_r))/2
+        xz_f_v=x_v
+        yz_f_h=((z_h-z_r)+min(y_h+y_r,x_h-x_r))/2
+        #z_f_h, z_f_v stay the same
+      }
+    }
+    # No Y-only
+    else if(y&&!y_only)
+    {
+      xz_f_v=xyz_f_v=x_v
+      # Y is subset of X
+      if(!yz_only)
+      {
+        z_f_h=(max(y_h+y_r,x_h+x_r)+(z_h+z_r))/2
+        z_f_v=x_v
+        xy_f_h=((y_h-y_r)+min(y_h+y_r,z_h-z_r))/2
+        xy_f_v=x_v
+        xz_f_h=(max(y_h+y_r,z_h-z_r)+(x_h+x_r))/2
+        #x_f_h, x_f_v stay the same
+      }
+      # Y is subset of Z
+      else if(!xy_only)
+      {
+        x_f_h=(max(y_h+y_r,z_h+z_r)+(x_h+x_r))/2
+        x_f_v=x_v
+        yz_f_h=((y_h-y_r)+max(y_h+y_r,x_h-x_r))/2
+        yz_f_v=x_v
+        xz_f_h=(max(y_h+y_r,x_h-x_r)+(z_h+z_r))/2
+        #z_f_h, z_f_v stay the same
+      }
+    }
+    # No Z-only
+    else if(z&&!z_only)
+    {
+      xy_f_v=xyz_f_v=x_v
+      # Z is subset of X
+      if(!yz_only)
+      {
+        y_f_h=((y_h-y_r)+min(x_h-x_r,z_h-z_r))/2
+        y_f_v=x_v
+        xz_f_h=(max(y_h+y_r,z_h-z_r)+(z_h+z_r))/2
+        xz_f_v=x_v
+        xy_f_h=((x_h-x_r)+min(y_h+y_r,z_h-z_r))/2
+        #x_f_h, x_f_v stay the same
+      }
+      # Z is subset of Y
+      else if(!xz_only)
+      {
+        x_f_h=((x_h-x_r)+min(y_h-y_r,z_h-z_r))/2
+        x_f_v=x_v
+        yz_f_h=(max(x_h+x_r,z_h-z_r)+(z_h+z_r))/2
+        yz_f_v=x_v
+        xy_f_h=((y_h-y_r)+min(x_h+x_r,z_h-z_r))/2
+        #y_f_h, y_f_v stay the same
+      }
+    }
+    xyz_f_h=(max(x_h-x_r,y_h-y_r,z_h-z_r)+min(x_h+x_r,y_h+y_r,z_h+z_r))/2
   }
 
   # Output to file or screen
@@ -579,62 +621,62 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
     {
       if(x_only)
       {
-        graphics::text(ppu*x_f_h-nr_s*0.3*length(x_only),ppu*x_f_v,x_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*x_f_h,ppu*x_f_v,x_only,adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(y_only)
       {
-        graphics::text(ppu*y_f_h-nr_s*0.3*length(y_only),ppu*y_f_v,y_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*y_f_h,ppu*y_f_v,y_only,adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(z_only)
       {
-        graphics::text(ppu*z_f_h-nr_s*0.3*length(z_only),ppu*z_f_v,z_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*z_f_h,ppu*z_f_v,z_only,adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xy_only)
       {
-        graphics::text(ppu*xy_f_h-nr_s*0.3*length(xy_only),ppu*xy_f_v,xy_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*xy_f_h,ppu*xy_f_v,xy_only,adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xz_only)
       {
-        graphics::text(ppu*xz_f_h-nr_s*0.3*length(xz_only),ppu*xz_f_v,xz_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*xz_f_h,ppu*xz_f_v,xz_only,adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(yz_only)
       {
-        graphics::text(ppu*yz_f_h-nr_s*0.3*length(yz_only),ppu*yz_f_v,yz_only,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*yz_f_h,ppu*yz_f_v,yz_only,adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xyz)
       {
-        graphics::text(ppu*xyz_f_h-nr_s*0.3*length(xyz_text),ppu*xyz_f_v,xyz_text,col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*xyz_f_h,ppu*xyz_f_v,xyz_text,adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
     }
     else if(nrtype=="pct")
     {
       if(x_only)
       {
-        graphics::text(ppu*x_f_h-nr_s*0.3*length(paste0(round(x_only/total_text*100,2),"%")),ppu*x_f_v,paste0(round(x_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*x_f_h,ppu*x_f_v,paste0(round(x_only/total_text*100,2),"%"),adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(y_only)
       {
-        graphics::text(ppu*y_f_h-nr_s*0.3*length(paste0(round(y_only/total_text*100,2),"%")),ppu*y_f_v,paste0(round(y_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*y_f_h,ppu*y_f_v,paste0(round(y_only/total_text*100,2),"%"),adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(z_only)
       {
-        graphics::text(ppu*z_f_h-nr_s*0.3*length(paste0(round(z_only/total_text*100,2),"%")),ppu*z_f_v,paste0(round(z_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*z_f_h,ppu*z_f_v,paste0(round(z_only/total_text*100,2),"%"),adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xy_only)
       {
-        graphics::text(ppu*xy_f_h-nr_s*0.3*length(paste0(round(xy_only/total_text*100,2),"%")),ppu*xy_f_v,paste0(round(xy_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*xy_f_h,ppu*xy_f_v,paste0(round(xy_only/total_text*100,2),"%"),adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xz_only)
       {
-        graphics::text(ppu*xz_f_h-nr_s*0.3*length(paste0(round(xz_only/total_text*100,2),"%")),ppu*xz_f_v,paste0(round(xz_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*xz_f_h,ppu*xz_f_v,paste0(round(xz_only/total_text*100,2),"%"),adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(yz_only)
       {
-        graphics::text(ppu*yz_f_h-nr_s*0.3*length(paste0(round(yz_only/total_text*100,2),"%")),ppu*yz_f_v,paste0(round(yz_only/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*yz_f_h,ppu*yz_f_v,paste0(round(yz_only/total_text*100,2),"%"),adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
       if(xyz)
       {
-        graphics::text(ppu*xyz_f_h-nr_s*0.3*length(paste0(round(xyz_text/total_text*100,2),"%")),ppu*xyz_f_v,paste0(round(xyz_text/total_text*100,2),"%"),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
+        graphics::text(ppu*xyz_f_h,ppu*xyz_f_v,paste0(round(xyz_text/total_text*100,2),"%"),adj=c(0.5,0.5),col=nr_c,family=nr_f,font=nr_fb,cex=nr_s)
       }
     }
   }
@@ -642,15 +684,15 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
   # Print texts
   if(x)
   {
-    graphics::text(ppu*x_h-xt_s*0.3*length(xtitle),ppu*x_v,xtitle,col=xt_c,family=xt_f,font=xt_fb,cex=xt_s)
+    graphics::text(ppu*x_h,ppu*x_v,xtitle,adj=c(0.5,0.5),col=xt_c,family=xt_f,font=xt_fb,cex=xt_s)
   }
   if(y)
   {
-    graphics::text(ppu*y_h-yt_s*0.3*length(ytitle),ppu*y_v,ytitle,col=yt_c,family=yt_f,font=yt_fb,cex=yt_s)
+    graphics::text(ppu*y_h,ppu*y_v,ytitle,adj=c(0.5,0.5),col=yt_c,family=yt_f,font=yt_fb,cex=yt_s)
   }
   if(z)
   {
-    graphics::text(ppu*z_h-zt_s*0.3*length(ztitle),ppu*z_v,ztitle,col=zt_c,family=zt_f,font=zt_fb,cex=zt_s)
+    graphics::text(ppu*z_h,ppu*z_v,ztitle,adj=c(0.5,0.5),col=zt_c,family=zt_f,font=zt_fb,cex=zt_s)
   }
 
   # Write to file
