@@ -274,26 +274,8 @@ draw.venn <- function(list_x, list_y, list_z, title="BioVenn", t_f="serif", t_fb
   # Number fill point calculation of XYZ
   if(x&&y&&z)
   {
-    if(!xy)
-    {
-      xyz_f_h=xy_i1_h
-      xyz_f_v=xy_i1_v
-    }
-    else if(!xz)
-    {
-      xyz_f_h=xz_i1_h
-      xyz_f_v=xz_i1_v
-    }
-    else if(!yz)
-    {
-      xyz_f_h=yz_i1_h
-      xyz_f_v=yz_i1_v
-    }
-    else
-    {
-      xyz_f_h=(xy_i1_h+xz_i1_h+yz_i1_h)/3
-      xyz_f_v=(xy_i1_v+xz_i1_v+yz_i1_v)/3
-    }
+    xyz_f_h=(xy_i1_h+xz_i1_h+yz_i1_h)/3
+    xyz_f_v=(xy_i1_v+xz_i1_v+yz_i1_v)/3
   }
 
   # Number fill point calculation of X-only
