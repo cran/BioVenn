@@ -6,8 +6,8 @@
 #' Affymetrix to Ensembl IDs is available. BioVenn is case-sensitive. In SVG mode, text and numbers can be dragged and dropped.
 #'
 #' When using a BioVenn diagram for a publication, please cite:
-#' BioVenn - a web application for the comparison and visualization of biological lists using area-proportional Venn diagrams
-#' T. Hulsen, J. de Vlieg and W. Alkema, BMC Genomics 2008, 9 (1): 488
+#' BioVenn - an R and Python package for the comparison and visualization of biological lists using area-proportional Venn diagrams
+#' T. Hulsen, Data Science 2021, 1-11
 #'
 #' @param list_x (Required) List with IDs from dataset X
 #' @param list_y (Required) List with IDs from dataset Y

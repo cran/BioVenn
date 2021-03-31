@@ -7,26 +7,26 @@ if(!length(year))
 vers <- meta$Version
 if(is.null(vers))
   vers <- packageVersion("BioVenn")
-note <- paste("R package version", vers)
+note <- paste("R Package Version", vers)
 
 citHeader("To cite BioVenn in publications, please use these two references:")
 
 bibentry(
   bibtype   = "Article",
-  title     = "BioVenn--a web application for the comparison and visualization of biological lists using area-proportional Venn diagrams",
-  author    = "Hulsen, Tim and de Vlieg, Jacob and Alkema, Wynand",
-  journal   = "BMC Genomics",
-  volume    = "9",
-  number    = "1",
-  pages     = "1--6",
-  year      = "2008",
-  publisher = "BioMed Central",
+  title     = "BioVenn--an R and Python package for the comparison and visualization of biological lists using area-proportional Venn diagrams",
+  author    = "Hulsen, Tim",
+  journal   = "Data Science",
+  volume    = "",
+  number    = "",
+  pages     = "1--11",
+  year      = "2021",
+  publisher = "IOS Press",
   url       = "https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-9-488"
 )
 
 bibentry(
   bibtype = "Manual",
-  title   = "BioVenn--Create Area-Proportional Venn Diagrams from Biological Lists",
+  title   = "BioVenn: Create Area-Proportional Venn Diagrams from Biological Lists",
   author  = personList(as.person("Tim Hulsen")),
   year    = year,
   note    = note,

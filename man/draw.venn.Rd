@@ -147,8 +147,8 @@ Affymetrix to Ensembl IDs is available. BioVenn is case-sensitive. In SVG mode, 
 }
 \details{
 When using a BioVenn diagram for a publication, please cite:
-BioVenn - a web application for the comparison and visualization of biological lists using area-proportional Venn diagrams
-T. Hulsen, J. de Vlieg and W. Alkema, BMC Genomics 2008, 9 (1): 488
+BioVenn - an R and Python package for the comparison and visualization of biological lists using area-proportional Venn diagrams
+T. Hulsen, Data Science 2021, 1-11
 }
 \examples{
 list_x <- c("1007_s_at","1053_at","117_at","121_at","1255_g_at","1294_at")
