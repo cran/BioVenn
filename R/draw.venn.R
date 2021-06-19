@@ -7,7 +7,8 @@
 #'
 #' When using a BioVenn diagram for a publication, please cite:
 #' BioVenn - an R and Python package for the comparison and visualization of biological lists using area-proportional Venn diagrams
-#' T. Hulsen, Data Science 2021, 1-11
+#' T. Hulsen, Data Science 2021, 4 (1): 51-61
+#' https://dx.doi.org/10.3233/DS-210032
 #'
 #' @param list_x (Required) List with IDs from dataset X
 #' @param list_y (Required) List with IDs from dataset Y

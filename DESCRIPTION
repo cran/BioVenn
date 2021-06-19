@@ -1,6 +1,6 @@
 Package: BioVenn
 Title: Create Area-Proportional Venn Diagrams from Biological Lists
-Version: 1.1.2
+Version: 1.1.3
 Authors@R: 
     person(given = "Tim",
            family = "Hulsen",
@@ -16,7 +16,7 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2021-03-31 12:39:09 UTC; nlv23023
+Packaged: 2021-06-19 07:50:02 UTC; nlv23023
 Author: Tim Hulsen [aut, cre] (<https://orcid.org/0000-0002-0208-8443>)
 Repository: CRAN
-Date/Publication: 2021-03-31 13:10:02 UTC
+Date/Publication: 2021-06-19 08:10:02 UTC
